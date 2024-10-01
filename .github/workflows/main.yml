@@ -19,4 +19,4 @@ on:
       - opened
       - synchronize
       - reopened
-      - edited
+      - edited 
