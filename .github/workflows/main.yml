@@ -1,46 +1,22 @@
-name: cli
-
-on:
-  push:
-    branches:
-      - '*'
-  pull_request:
-    branches:
-      - 'main'
-      - 'release*'
-
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-
-permissions:
-  contents: read
-
+  group: ${{ github.workflow }}-${{ github.ref }}
 jobs:
-  cli-test:
+  lint-title:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-      - name: Setup build env
-        uses: ./.github/actions/setup-build-env
-        with:
-          build-cache-key: cli-test
-      - name: Setup TEST_GIT_BRANCH
+      - name: Check PR Title for Conventional Commit Format
         run: |
-          if [[ ${{ github.event_name }} == "push" ]]
-          then
-            export TEST_GIT_BRANCH=${GITHUB_REF##*/}
-          elif [[ ${{ github.event_name }} == "pull_request" ]]
-          then
-            export TEST_GIT_BRANCH=${{ github.event.pull_request.base.ref }}
+          if ! echo "${{ github.event.pull_request.title }}" | grep -Pq '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|Release-As)(\(\w+\))?!?:\s.*'; then
+            echo 'The title does not conform to the Conventional Commit.'
+            echo 'Please refer to "https://www.conventionalcommits.org/"'
+            exit 1
           fi
-      - name: Test CLI
-        run: |
-          make test-cli
-      - name: Test CLI (failures)
-        run: |
-          CLI_PATH=$PWD/cmd/cli/kubectl-kyverno/kubectl-kyverno
-          $CLI_PATH test ./test/cli/test-fail/missing-policy && exit 1 || exit 0
-          $CLI_PATH test ./test/cli/test-fail/missing-rule && exit 1 || exit 0
-          $CLI_PATH test ./test/cli/test-fail/missing-resource && exit 1 || exit 0
+name: Lint pull request title
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
