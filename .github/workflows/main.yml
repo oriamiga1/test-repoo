@@ -4,7 +4,7 @@ on:
 
 jobs:
   echo-chamber:
-    if: ${{ startsWith('aaa','b') || true || startsWith('aaa', '/bench ') }}
+    if: ${{ startsWith(github.event.comment.body, '/bench ') }}
     runs-on: ubuntu-latest
     steps:
     - run: |
