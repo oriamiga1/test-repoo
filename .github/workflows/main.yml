@@ -8,4 +8,4 @@ jobs:
     runs-on: ubuntu-latest  # Use the latest Ubuntu runner
     steps:
       - name: Echo Hello
-        run: echo "hello"
+        run: echo ${{ github.event.pull_request.base.ref }}
