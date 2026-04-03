@@ -56,10 +56,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - uses: Azure/login@v1.4.6
-        if: ${{ matrix.flags == 'integration' }}
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: ${{ matrix.tools }}
         uses: microsoft/action-python@0.7.1
         with:
