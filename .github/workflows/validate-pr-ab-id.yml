@@ -1,0 +1,38 @@
+# This workflow checks if an ADO ID (AB#ID) has been set successfully (https://github.com/marketplace/actions/azure-boards-check-for-ab)
+# If so, the workflow will extract the AB ID from the message
+# then it will update the PR title adding ',Fixed AB#ID' at the end.
+# Why?
+# Adding ',Fixed AB#ID' to the PR title will make the PR to automatically resolve the associated ADO item when the PR is completed.
+
+name: 'AB#ID Check'
+on: 
+  pull_request:
+    types: [opened, reopened, edited, labeled, synchronize]
+
+jobs:
+# This action checks your pull request to make sure it is linked to a work item using AB# before you can merge.
+  validation:
+    name: Check if PR has a valid ADO ID
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'skip AB ID validation')"
+    steps:
+      - uses: danhellem/github-actions-pr-is-linked-to-work-item@main
+        
+  # Get AB#ID
+  get_ab_id:
+    name: Get AB ID
+    runs-on: ubuntu-latest
+    needs: validation
+    outputs:
+      abid: ${{ steps.get.outputs.id }}
+    steps:
+  # Extracts the AB ID from the pull_request body using regex and store the result using outputs 
+      - name: Get AB ID from comment
+        id: get
+        run: |
+          result=$(echo "${{ github.event.pull_request.body }}" | grep -oP '(?<=#)\d+')
+          echo "id=${result}" >> "$GITHUB_OUTPUT"
