@@ -13,9 +13,6 @@ jobs:
       models: read
       issues: write
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        
       - name: Call GitHub Model API
         id: ai-inference
         uses: actions/ai-inference@v1
