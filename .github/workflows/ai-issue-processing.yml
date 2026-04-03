@@ -12,12 +12,10 @@ jobs:
       contents: read
       models: read
       issues: write
-    env:
-      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
       - name: Call GitHub Model API
         id: ai-inference
-        uses: actions/ai-inference@v1
+        uses: actions/ai-inference@v2
         with:
           model: gpt-4o-mini
           prompt: |
