@@ -3,6 +3,7 @@ name: AI Issue Processing
 on:
   issues:
     types: [labeled]
+  workflow_dispatch:
 
 jobs:
   issue-processing:
@@ -14,14 +15,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Add Needs Review Label
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-        run: |
-          gh issue edit $ISSUE_NUMBER --add-label "Needs Review 👓" --repo ${{ github.repository }}
-
+        
       - name: Call GitHub Model API
         id: ai-inference
         uses: actions/ai-inference@v1
