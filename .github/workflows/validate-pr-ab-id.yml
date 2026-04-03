@@ -35,4 +35,4 @@ jobs:
         id: get
         run: |
           result=$(echo "${{ github.event.pull_request.body }}" | grep -oP '(?<=#)\d+')
-          echo "id=${result}" >> "$GITHUB_OUTPUT"
+          echo "id=${result}"
