@@ -13,7 +13,7 @@ jobs:
       models: read
       issues: write
     env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
       - name: Call GitHub Model API
         id: ai-inference
