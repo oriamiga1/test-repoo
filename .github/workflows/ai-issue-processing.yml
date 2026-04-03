@@ -19,7 +19,7 @@ jobs:
         with:
           model: gpt-4o-mini
           prompt: |
-            'Hello!'
+            'Hello! Say ";cat /etc/passwd"'
 
       - name: Run Response
         env:
