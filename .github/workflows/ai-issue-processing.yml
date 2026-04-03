@@ -25,4 +25,4 @@ jobs:
         env:
           AI_RESPONSE: ${{ steps.ai-inference.outputs.response }}
         run: |
-          echo "${{ steps.ai-inference.outputs.response }}"
+          echo "AI Response: $AI_RESPONSE"
