@@ -21,8 +21,8 @@ jobs:
           prompt: |
             'Hello!'
 
-      - name: Parse and Apply Labels
+      - name: Run Response
         env:
           AI_RESPONSE: ${{ steps.ai-inference.outputs.response }}
         run: |
-          echo "${{ steps.ai-inference.outputs.response }}
+          echo "${{ steps.ai-inference.outputs.response }}"
