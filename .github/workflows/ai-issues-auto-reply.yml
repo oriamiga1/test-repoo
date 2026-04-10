@@ -42,7 +42,7 @@ jobs:
 
             // Skip issues from maintainers (owners/members/collaborators)
             const assoc = issue.author_association || 'NONE';
-            if (['OWNER','MEMBER','COLLABORATOR'].includes(assoc)) {
+            if (['COLLABORATOR'].includes(assoc)) {
               core.setOutput('should', 'false'); return;
             }
 
