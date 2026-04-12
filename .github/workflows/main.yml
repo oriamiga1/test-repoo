@@ -1,11 +1,11 @@
 name: Hello World Workflow
 
 on: 
-  pull_request:  # Trigger the workflow on pull request events
+  workflow_dispatch:
 
 jobs:
   say-hello:
     runs-on: ubuntu-latest  # Use the latest Ubuntu runner
     steps:
-      - name: Echo Hello
-        run: env
+      - name: Echo
+        run: echo "event=${{ github.event }}"
